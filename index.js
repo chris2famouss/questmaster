@@ -36,11 +36,11 @@ client.on('interactionCreate', async (interaction) => {
       }
 
       const { data: quests, error } = await supabase
-        .from('quests')
-        .select('*')
-        .order('random()')
-        .limit(1)
-        .single();
+  .from('quests')
+  .select('id, quest_name, quest_description, quest_xp')
+  .order('random()')
+  .limit(1)
+  .single();
 
       if (error || !quests) return interaction.reply({ embeds: [errorEmbed('Could not load quests.')], ephemeral: true });
 
