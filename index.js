@@ -35,12 +35,18 @@ client.on('interactionCreate', async (interaction) => {
         return interaction.reply({ embeds: [errorEmbed(`You already have a quest. Come back in ${hours} hour(s).`)], ephemeral: true });
       }
 
-      const { data: quests, error } = await supabase
+      const { data: questList, error } = await supabase
   .from('quests')
-  .select('id, quest_name, quest_description, quest_xp')
-  .order('random()')
-  .limit(1)
-  .single();
+  .select('id, quest_name, quest_description, quest_xp');
+
+if (error || !questList?.length) {
+  console.log("SUPABASE ERROR:", error);
+  return interaction.editReply({ embeds: [errorEmbed('❌ Could not load quests from database.')], ephemeral: true });
+}
+
+// Pick one randomly
+const quests = questList[Math.floor(Math.random() * questList.length)];
+
   console.log("QUESTS:", quests);
 console.log("SUPABASE ERROR:", error);
 
