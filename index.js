@@ -41,6 +41,8 @@ client.on('interactionCreate', async (interaction) => {
   .order('random()')
   .limit(1)
   .single();
+  console.log("QUESTS:", quests);
+console.log("SUPABASE ERROR:", error);
 
       if (error || !quests) return interaction.reply({ embeds: [errorEmbed('Could not load quests.')], ephemeral: true });
 
